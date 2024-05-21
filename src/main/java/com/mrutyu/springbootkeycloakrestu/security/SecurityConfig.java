@@ -33,6 +33,8 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.GET, "/restaurant/public/list").permitAll()
                     .requestMatchers(HttpMethod.GET, "/restaurant/public/menu/*").permitAll()
                     .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                    .requestMatchers("/register/**").permitAll()
+                    .requestMatchers("/keycloak/users/**").permitAll() // Add this line to permit access to Keycloak API endpoints
                     .anyRequest().authenticated();
         });
         http.oauth2ResourceServer(t-> {

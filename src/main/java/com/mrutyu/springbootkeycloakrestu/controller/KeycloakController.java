@@ -1,7 +1,6 @@
 package com.mrutyu.springbootkeycloakrestu.controller;
 
 import com.mrutyu.springbootkeycloakrestu.dto.User;
-import com.mrutyu.springbootkeycloakrestu.dto.SignInDTO;
 import com.mrutyu.springbootkeycloakrestu.security.KeyCloakSecurityUtil;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.keycloak.admin.client.Keycloak;
@@ -25,43 +24,34 @@ public class KeycloakController {
     @Autowired
     private KeyCloakSecurityUtil keyCloakSecurityUtil;
 
-    @PostMapping("/signup")
-    public ResponseEntity<String> signUp(@RequestBody User user) {
-        try {
-            Keycloak keycloak = keyCloakSecurityUtil.getKeycloakInstance();
-            RealmResource realmResource = keycloak.realm(keyCloakSecurityUtil.getRealm());
-            UsersResource usersResource = realmResource.users();
+//    @PostMapping("/signup")
+//    public ResponseEntity<String> signUp(@RequestBody User user) {
+//        try {
+//            Keycloak keycloak = keyCloakSecurityUtil.getKeycloakInstance();
+//            RealmResource realmResource = keycloak.realm(keyCloakSecurityUtil.getRealm());
+//            UsersResource usersResource = realmResource.users();
+//
+//            UserRepresentation userRepresentation = new UserRepresentation();
+//            userRepresentation.setUsername(user.getUsername());
+//            userRepresentation.setEmail(user.getEmail());
+//            userRepresentation.setFirstName(user.getFirstName());
+//            userRepresentation.setLastName(user.getLastName());
+//            userRepresentation.setEnabled(true); // Enable the user
+//
+//            // Set password
+//            CredentialRepresentation credential = new CredentialRepresentation();
+//            credential.setType(CredentialRepresentation.PASSWORD);
+//            credential.setValue(user.getPassword());
+//            credential.setTemporary(false);
+//            userRepresentation.setCredentials(Collections.singletonList(credential));
+//
+//            // Create the user
+//            usersResource.create(userRepresentation);
+//
+//            return ResponseEntity.status(HttpStatus.CREATED).body("User created successfully");
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create user: " + e.getMessage());
+//        }
+//    }
 
-            UserRepresentation userRepresentation = new UserRepresentation();
-            userRepresentation.setUsername(user.getUsername());
-            userRepresentation.setEmail(user.getEmail());
-            userRepresentation.setFirstName(user.getFirstName());
-            userRepresentation.setLastName(user.getLastName());
-            userRepresentation.setEnabled(true); // Enable the user
-
-            // Set password
-            CredentialRepresentation credential = new CredentialRepresentation();
-            credential.setType(CredentialRepresentation.PASSWORD);
-            credential.setValue(user.getPassword());
-            credential.setTemporary(false);
-            userRepresentation.setCredentials(Collections.singletonList(credential));
-
-            // Create the user
-            usersResource.create(userRepresentation);
-
-            return ResponseEntity.status(HttpStatus.CREATED).body("User created successfully");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create user: " + e.getMessage());
-        }
-    }
-
-    @PostMapping("/signin")
-    public ResponseEntity<String> signIn(@RequestBody SignInDTO signInDTO) {
-        try {
-            // Perform authentication logic here
-            return ResponseEntity.ok("User authenticated successfully");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to authenticate user: " + e.getMessage());
-        }
-    }
 }

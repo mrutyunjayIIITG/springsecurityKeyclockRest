@@ -1,28 +1,33 @@
 package com.mrutyu.springbootkeycloakrestu.security;
 
-
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
+
 public class KeyCloakSecurityUtil {
 
-    Keycloak keycloak;
+    private Keycloak keycloak; //this will create instamce of keyclok
 
-    @Value("${keycloak.auth-server-url}")
+    @Value("${server-url}")
     private String serverUrl;
 
-    @Value("${keycloak.realm}")
+    @Value("${realm}")
     private String realm;
 
-    @Value("${keycloak.grant-type}")
-    private String  grantType;
-    @Value("${keycloak.client-id}")
+    @Value("${grant-type}")
+    private String grantType;
+
+    @Value("${client-id}")
     private String clientId;
-    @Value("${keycloak.password}")
+
+    @Value("${password}")
     private String password;
+
+    @Value("${name}")
+    private String username;
 
     public Keycloak getKeycloakInstance() {
         if (keycloak == null) {
@@ -31,13 +36,18 @@ public class KeyCloakSecurityUtil {
                     .realm(realm)
                     .grantType(grantType)
                     .clientId(clientId)
-                    .clientSecret(password)
+                    .username(username)  // Updated to match the configuration file key 'name'
+                    .password(password)
                     .build();
         }
         return keycloak;
     }
 
-    public String getRealm() {
-        return realm;
+    public String getAccessToken() {
+        return getKeycloakInstance().tokenManager().getAccessToken().getToken();
     }
+//
+//    public String getRealm() {
+//        return realm;
+//    }
 }
